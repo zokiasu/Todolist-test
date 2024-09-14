@@ -1,6 +1,7 @@
 <template>
     <draggable
         :list="tasks"
+        :key="draggableKey"
         :group="{ name: 'tasks', pull: true, put: true }"
         item-key="id"
         :animation="200"
@@ -18,16 +19,17 @@ import { useTaskStore } from "@/stores/taskStore";
 
 const props = defineProps({
     tasks: {
-		type: Array,
-		required: true,
+        type: Array,
+        required: true,
     },
     parentTaskId: {
-		type: Number,
-		default: null,
+        type: Number,
+        default: null,
     },
 });
 
 const taskStore = useTaskStore();
+const draggableKey = ref(Date.now());
 
 function onDragEnd() {
     console.log("props.parentTaskId");
@@ -39,4 +41,9 @@ function onDragEnd() {
         taskStore.updateSubTasks(props.parentTaskId, props.tasks);
     }
 }
+
+// Watcher pour réinitialiser la clé lorsque les tâches changent
+watch(() => props.tasks, () => {
+	draggableKey.value = Date.now();
+}, { deep: true });
 </script>

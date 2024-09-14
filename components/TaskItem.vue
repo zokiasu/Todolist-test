@@ -68,9 +68,7 @@
                 @onCancel="showAddSubTask = false" 
             />
         </div>
-        <!-- <div v-if="task.subTasks && task.subTasks.length" class="border-l divide-y divide-red-300 border-red-400 ml-3 pl-1">
-            <TaskList :tasks="task.subTasks" />
-        </div> -->
+		
         <transition name="slide-toggle">
             <div
                 v-if="showSubTasks && task.subTasks && task.subTasks.length"

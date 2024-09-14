@@ -14,11 +14,12 @@ export const useTaskStore = defineStore('taskStore', () => {
             parentId,
             subTasks: [],
         };
-
+    
         if (relativeTaskId !== null) {
             // Insérer la tâche avant ou après une tâche existante
-            const { parentList, index } = findTaskByIdWithParent(relativeTaskId);
-            if (parentList) {
+            const result = findTaskByIdWithParent(relativeTaskId);
+            if (result) {
+                const { parentList, index } = result;
                 if (position === 'before') {
                     parentList.splice(index, 0, newTask);
                 } else if (position === 'after') {
@@ -36,6 +37,7 @@ export const useTaskStore = defineStore('taskStore', () => {
             tasks.value.push(newTask);
         }
     }
+    
 
     // Fonction pour trouver une tâche et sa liste parente
     function findTaskByIdWithParent(id, taskList = tasks.value) {
