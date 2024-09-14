@@ -37,7 +37,6 @@ export const useTaskStore = defineStore('taskStore', () => {
             tasks.value.push(newTask);
         }
     }
-    
 
     // Fonction pour trouver une tâche et sa liste parente
     function findTaskByIdWithParent(id, taskList = tasks.value) {
@@ -185,6 +184,7 @@ export const useTaskStore = defineStore('taskStore', () => {
         toggleTaskCompletion,
         toggleTaskCompletion,
         updateParentCompletion,
+        canToggleCompletion,
         markAllSubTasksIncomplete
     };
 });

@@ -5,11 +5,15 @@
         </p>
         <AddTask @onAdd="handleAddTask" />
         <TaskList :tasks="rootTasks" />
+		<div class="mt-4 flex space-x-2">
+			<UploadTasks />
+			<DownloadTasks />
+		</div>
     </div>
 </template>
 
 <script setup>
-    import { useTaskStore } from '@/stores/taskStore';
+	import { useTaskStore } from '@/stores/taskStore';
 
     const taskStore = useTaskStore();
     const rootTasks = computed(() => taskStore.getRootTasks());

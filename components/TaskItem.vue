@@ -1,15 +1,15 @@
 <template>
-    <div class="pl-2 pb-1 mb-2 cursor-pointer bg-red-100">
+    <div class="pl-2 pb-1 mb-2 bg-red-100">
         <div class="flex items-center justify-between" :class="task.subTasks && task.subTasks.length && showSubTasks ? 'pb-2':''">
-			<div class="flex items-center gap-1">
+			<div class="flex items-center gap-3">
 				<input
 					type="checkbox"
 					:checked="task.completed"
 					@change="toggleTaskCompletion"
 					:disabled="!canToggleCompletion"
-					class="mr-2"
+					class="cursor-pointer"
 				/>
-				<div @click="toggleSubTasks" class="w-full">
+				<div @click="toggleSubTasks" class="w-full" :class="{ 'cursor-pointer': task.subTasks && task.subTasks.length }">
 					<div v-if="isEditing" class="flex gap-1">
 						<input
 							v-model="editedName"
@@ -103,7 +103,7 @@
     const taskStore = useTaskStore();
     const isEditing = ref(false);
     const editedName = ref(props.task.name);
-    const showSubTasks = ref(false);
+    const showSubTasks = ref(true);
     const showAddSubTask = ref(false);
     const showAddTaskBefore = ref(false);
     const showAddTaskAfter = ref(false);
@@ -146,7 +146,9 @@
     function handleAddSubTask(name) {
         taskStore.addTask(name, props.task.id);
         showAddTaskAfter.value = false;
-		showSubTasks.value = true;
+		nextTick(() => {
+			showSubTasks.value = true;
+		});
     }
     // Fonction pour afficher/masquer les sous-tâches
     function toggleSubTasks() {
@@ -162,7 +164,7 @@
     });
 
 	const formattedCompletedAt = computed(() => {
-		return task.completedAt ? new Date(task.completedAt).toLocaleString() : null;
+		return props.task.completedAt ? new Date(props.task.completedAt).toLocaleString() : null;
 	});
 
 	const canToggleCompletion = computed(() => {
