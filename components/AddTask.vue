@@ -4,31 +4,35 @@
             v-model="taskName"
             type="text"
             placeholder="Nouvelle tâche"
-            class="border rounded px-2 py-1 w-full"
+            class="rounded px-2 py-1 w-full"
         />
         <div class="flex space-x-2">
-            <button @click="addTask" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700">Ajouter</button>
+            <button @click="submitTask" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700">Ajouter</button>
+            <button @click="cancel" v-if="showCancel" class="bg-gray-500 text-white px-4 py-2 rounded">Annuler</button>
         </div>
     </div>
 </template>
 
 <script setup>
-import { useTaskStore } from '@/stores/taskStore';
+    const props = defineProps({
+        showCancel: {
+            type: Boolean,
+            default: false,
+        },
+    });
 
-const props = defineProps({
-    parentId: {
-        type: Number,
-        default: null,
-    },
-});
+    const emits = defineEmits(['onAdd', 'onCancel']);
 
-const taskName = ref('');
-const taskStore = useTaskStore();
+    const taskName = ref('');
 
-function addTask() {
-    if (taskName.value.trim() !== '') {
-        taskStore.addTask(taskName.value, props.parentId);
-        taskName.value = '';
+    function submitTask() {
+        if (taskName.value.trim() !== '') {
+            emits('onAdd', taskName.value.trim());
+            taskName.value = '';
+        }
     }
-}
+
+    function cancel() {
+        emits('onCancel');
+    }
 </script>
