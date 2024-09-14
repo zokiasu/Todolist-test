@@ -4,7 +4,7 @@
             To do List
         </p>
         <AddTask @onAdd="handleAddTask" />
-        <TaskItem v-for="task in rootTasks" :key="task.id" :task="task" class="rounded" />
+        <TaskList :tasks="rootTasks" />
     </div>
 </template>
 

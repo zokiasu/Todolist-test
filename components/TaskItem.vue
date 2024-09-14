@@ -1,7 +1,7 @@
 <template>
-    <div @dblclick="editTaskName" class="p-2 mb-2 cursor-pointer bg-red-100">
-        <div class="flex items-center justify-between" :class="task.subTasks && task.subTasks.length ? 'pb-2':''">
-            <div class="w-full">
+    <div class="pl-2 pb-1 mb-2 cursor-pointer bg-red-100">
+        <div class="flex items-center justify-between" :class="task.subTasks && task.subTasks.length && showSubTasks ? 'pb-2':''">
+            <div @click="toggleSubTasks" class="w-full">
                 <div v-if="isEditing" class="flex gap-1">
                     <input
                         v-model="editedName"
@@ -20,28 +20,42 @@
                     <span class="text-gray-500">Créée le {{ formattedCreatedAt }}</span>
                 </div>
             </div>
-            <TaskMenu
-                v-if="!isEditing"
-                :task="task"
-                @editTask="editTaskName"
-                @addSubTask="addSubTask"
-                @addTaskBefore="addTaskBefore"
-                @addTaskAfter="addTaskAfter"
-                @deleteTask="deleteTask"
-            />
+            <div class="flex items-center gap-1">
+                <button
+                    v-if="task.subTasks && task.subTasks.length"
+                    @click="toggleSubTasks"
+                    title="Afficher les sous tâches"
+                    class="text-xl focus:outline-none"
+                >
+                    <IconMinus v-if="showSubTasks" title="Réduire toute les sous tâches" class="w-5 h-5" />
+                    <IconPlus v-else title="Afficher toute les sous tâches" class="w-5 h-5" />
+                </button>
+
+                <TaskMenu
+                    v-if="!isEditing"
+                    :task="task"
+                    @editTask="editTaskName"
+                    @addSubTask="addSubTask"
+                    @addTaskBefore="addTaskBefore"
+                    @addTaskAfter="addTaskAfter"
+                    @deleteTask="deleteTask"
+                />
+            </div>
         </div>
 
-        <div v-if="showAddTaskBefore" class="ml-6">
+        <div v-if="showAddTaskBefore" class="mb-5">
             <AddTask
                 :showCancel="true"
+                placeholder="Ajouter une tâche avant celle-ci"
                 @onAdd="handleAddTaskBefore"
                 @onCancel="showAddTaskBefore = false"
             />
         </div>
 
-        <div v-if="showAddTaskAfter" class="ml-6">
+        <div v-if="showAddTaskAfter" class="mb-5">
             <AddTask
                 :showCancel="true"
+                placeholder="Ajouter une tâche après celle-ci"
                 @onAdd="handleAddTaskAfter"
                 @onCancel="showAddTaskAfter = false"
             />
@@ -49,13 +63,22 @@
         <div v-if="showAddSubTask" class="mb-5">
             <AddTask 
                 :showCancel="true" 
+                placeholder="Ajouter une sous tâche"
                 @onAdd="handleAddSubTask" 
                 @onCancel="showAddSubTask = false" 
             />
         </div>
-        <div v-if="task.subTasks && task.subTasks.length" class="border-l divide-y divide-red-300 border-red-400 ml-3 pl-1">
-            <TaskItem v-for="task in task.subTasks" :key="task.id" :task="task" />
-        </div>
+        <!-- <div v-if="task.subTasks && task.subTasks.length" class="border-l divide-y divide-red-300 border-red-400 ml-3 pl-1">
+            <TaskList :tasks="task.subTasks" />
+        </div> -->
+        <transition name="slide-toggle">
+            <div
+                v-if="showSubTasks && task.subTasks && task.subTasks.length"
+                class="border-l divide-y divide-red-300 border-red-400 ml-3 pl-1"
+            >
+                <TaskList :tasks="task.subTasks" :parentTaskId="task.id" />
+            </div>
+        </transition>
     </div>
 </template>
 
@@ -73,6 +96,7 @@
     const taskStore = useTaskStore();
     const isEditing = ref(false);
     const editedName = ref(props.task.name);
+    const showSubTasks = ref(false);
     const showAddSubTask = ref(false);
     const showAddTaskBefore = ref(false);
     const showAddTaskAfter = ref(false);
@@ -115,6 +139,10 @@
     function handleAddSubTask(name) {
         taskStore.addTask(name, props.task.id);
         showAddTaskAfter.value = false;
+    }
+    // Fonction pour afficher/masquer les sous-tâches
+    function toggleSubTasks() {
+        showSubTasks.value = !showSubTasks.value;
     }
 
     const formattedCreatedAt = computed(() => {

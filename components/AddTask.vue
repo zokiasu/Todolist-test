@@ -3,8 +3,10 @@
         <input
             v-model="taskName"
             type="text"
-            placeholder="Nouvelle tâche"
-            class="rounded px-2 py-1 w-full"
+            :placeholder="placeholder"
+            @keyup.enter="submitTask"
+            @blur="submitTask"
+            class="rounded px-2 py-1 w-full bg-zinc-100"
         />
         <div class="flex space-x-2">
             <button @click="submitTask" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700">Ajouter</button>
@@ -19,6 +21,10 @@
             type: Boolean,
             default: false,
         },
+        placeholder: {
+            type: String,
+            default: "Nouvelle tâche"
+        }
     });
 
     const emits = defineEmits(['onAdd', 'onCancel']);
