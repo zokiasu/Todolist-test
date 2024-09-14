@@ -111,6 +111,65 @@ export const useTaskStore = defineStore('taskStore', () => {
         }
     }
 
+    function toggleTaskCompletion(id) {
+        const task = findTaskById(id);
+        if (task && canToggleCompletion(id)) {
+            task.completed = !task.completed;
+            task.completedAt = task.completed ? new Date() : null;
+
+            // Mettre à jour l'état de complétion des tâches parentes si nécessaire
+            if (task.parentId !== null) {
+                updateParentCompletion(task.parentId);
+            }
+
+            // Si la tâche est marquée comme non complétée, marquer toutes les sous-tâches comme non complétées
+            if (!task.completed && task.subTasks.length > 0) {
+                markAllSubTasksIncomplete(task);
+            }
+        }
+    }
+
+    // Fonction pour vérifier que toute les subTasks soient compléter 
+    function canToggleCompletion(id) {
+        const task = findTaskById(id);
+        if (task) {
+            if (task.subTasks.length === 0) {
+                return true;
+            } else {
+                return task.subTasks.every(subTask => subTask.completed);
+            }
+        }
+        return false;
+    }
+
+    function updateParentCompletion(parentId) {
+        const parentTask = findTaskById(parentId);
+        if (parentTask) {
+            if (parentTask.subTasks.every(subTask => subTask.completed)) {
+                parentTask.completed = true;
+                parentTask.completedAt = new Date();
+                if (parentTask.parentId !== null) {
+                    updateParentCompletion(parentTask.parentId);
+                }
+            } else {
+                parentTask.completed = false;
+                parentTask.completedAt = null;
+                if (parentTask.parentId !== null) {
+                    updateParentCompletion(parentTask.parentId);
+                }
+            }
+        }
+    }
+
+    function markAllSubTasksIncomplete(task) {
+        for (const subTask of task.subTasks) {
+            subTask.completed = false;
+            subTask.completedAt = null;
+            if (subTask.subTasks.length > 0) {
+                markAllSubTasksIncomplete(subTask);
+            }
+        }
+    }
 
     return {
         tasks,
@@ -123,5 +182,9 @@ export const useTaskStore = defineStore('taskStore', () => {
         findTaskById,
         updateRootTasks,
         updateSubTasks,
+        toggleTaskCompletion,
+        toggleTaskCompletion,
+        updateParentCompletion,
+        markAllSubTasksIncomplete
     };
 });

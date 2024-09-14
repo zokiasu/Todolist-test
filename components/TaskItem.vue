@@ -1,30 +1,39 @@
 <template>
     <div class="pl-2 pb-1 mb-2 cursor-pointer bg-red-100">
         <div class="flex items-center justify-between" :class="task.subTasks && task.subTasks.length && showSubTasks ? 'pb-2':''">
-            <div @click="toggleSubTasks" class="w-full">
-                <div v-if="isEditing" class="flex gap-1">
-                    <input
-                        v-model="editedName"
-                        @keyup.enter="saveTaskName"
-                        @blur="saveTaskName"
-                        class="border-b w-full rounded appearance-none outline-none pl-1"
-                    />
-                    <button @click="saveTaskName" class="bg-green-500 text-white px-2 rounded text-nowrap hover:bg-green-700">
-                        Mettre à jour
-                    </button>
-                </div>
-                <p v-else>
-                    {{ task.name }}
-                </p>
-                <div class="text-xs">
-                    <span class="text-gray-500">Créée le {{ formattedCreatedAt }}</span>
-                </div>
-            </div>
+			<div class="flex items-center gap-1">
+				<input
+					type="checkbox"
+					:checked="task.completed"
+					@change="toggleTaskCompletion"
+					:disabled="!canToggleCompletion"
+					class="mr-2"
+				/>
+				<div @click="toggleSubTasks" class="w-full">
+					<div v-if="isEditing" class="flex gap-1">
+						<input
+							v-model="editedName"
+							@keyup.enter="saveTaskName"
+							@blur="saveTaskName"
+							class="border-b w-full rounded appearance-none outline-none pl-1"
+						/>
+						<button @click="saveTaskName" class="bg-green-500 text-white px-2 rounded text-nowrap hover:bg-green-700">
+							Mettre à jour
+						</button>
+					</div>
+					<p v-else>
+						{{ task.name }}
+					</p>
+					<div class="text-xs text-gray-500">
+						<span>Créée le {{ formattedCreatedAt }}</span>
+						<span v-if="task.completedAt"> • Complétée le {{ formattedCompletedAt }}</span>
+					</div>
+				</div>
+			</div>
             <div class="flex items-center gap-1">
                 <button
                     v-if="task.subTasks && task.subTasks.length"
                     @click="toggleSubTasks"
-                    title="Afficher les sous tâches"
                     class="text-xl focus:outline-none"
                 >
                     <IconMinus v-if="showSubTasks" title="Réduire toute les sous tâches" class="w-5 h-5" />
@@ -137,13 +146,26 @@
     function handleAddSubTask(name) {
         taskStore.addTask(name, props.task.id);
         showAddTaskAfter.value = false;
+		showSubTasks.value = true;
     }
     // Fonction pour afficher/masquer les sous-tâches
     function toggleSubTasks() {
         showSubTasks.value = !showSubTasks.value;
     }
 
+	function toggleTaskCompletion() {
+		taskStore.toggleTaskCompletion(props.task.id);
+	}
+
     const formattedCreatedAt = computed(() => {
         return new Date(props.task.createdAt).toLocaleString();
     });
+
+	const formattedCompletedAt = computed(() => {
+		return task.completedAt ? new Date(task.completedAt).toLocaleString() : null;
+	});
+
+	const canToggleCompletion = computed(() => {
+		return taskStore.canToggleCompletion(props.task.id);
+	});
 </script>
