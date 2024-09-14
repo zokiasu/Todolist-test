@@ -28,6 +28,18 @@ export const useTaskStore = defineStore('taskStore', () => {
     return tasks.value;
   }
 
+  function findTaskById(id, taskList = tasks.value) {
+    for (const task of taskList) {
+      if (task.id === id) {
+        return task;
+      } else if (task.subTasks.length) {
+        const found = findTaskById(id, task.subTasks);
+        if (found) return found;
+      }
+    }
+    return null;
+  }
+
   function updateTaskName(id, newName) {
     const task = findTaskById(id);
     if (task) {
@@ -54,5 +66,6 @@ export const useTaskStore = defineStore('taskStore', () => {
     updateTaskName,
     deleteTask,
     getRootTasks,
+    findTaskById,
   };
 });

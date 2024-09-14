@@ -1,13 +1,13 @@
 <template>
-    <div class="my-2">
+    <div class="flex gap-2 my-2">
         <input
             v-model="taskName"
             type="text"
             placeholder="Nouvelle tâche"
             class="border rounded px-2 py-1 w-full"
         />
-        <div class="flex space-x-2 mt-2">
-            <button @click="addTask" class="bg-green-500 text-white px-4 py-2 rounded">Ajouter</button>
+        <div class="flex space-x-2">
+            <button @click="addTask" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700">Ajouter</button>
         </div>
     </div>
 </template>
