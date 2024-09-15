@@ -54,64 +54,64 @@
 </template>
 
 <script setup>
-const props = defineProps({
-    task: {
-        type: Object,
-        required: true,
-    },
-});
+    const props = defineProps({
+        task: {
+            type: Object,
+            required: true,
+        },
+    });
 
-const emits = defineEmits([
-    "editTask",
-    "addSubTask",
-    "deleteTask",
-    "addTaskBefore",
-    "addTaskAfter",
-]);
+    const emits = defineEmits([
+        "editTask",
+        "addSubTask",
+        "deleteTask",
+        "addTaskBefore",
+        "addTaskAfter",
+    ]);
 
-const isMenuOpen = ref(false);
-const menuContainer = ref(null);
+    const isMenuOpen = ref(false);
+    const menuContainer = ref(null);
 
-function toggleMenu() {
-    isMenuOpen.value = !isMenuOpen.value;
-}
+    function toggleMenu() {
+        isMenuOpen.value = !isMenuOpen.value;
+    }
 
-function handleClickOutside(event) {
-    if (menuContainer.value && !menuContainer.value.contains(event.target)) {
+    function handleClickOutside(event) {
+        if (menuContainer.value && !menuContainer.value.contains(event.target)) {
+            isMenuOpen.value = false;
+        }
+    }
+
+    onMounted(() => {
+        document.addEventListener("click", handleClickOutside);
+    });
+
+    onUnmounted(() => {
+        document.removeEventListener("click", handleClickOutside);
+    });
+
+    function editTask() {
+        emits("editTask");
         isMenuOpen.value = false;
     }
-}
 
-onMounted(() => {
-    document.addEventListener("click", handleClickOutside);
-});
+    function addSubTask() {
+        emits("addSubTask");
+        isMenuOpen.value = false;
+    }
 
-onUnmounted(() => {
-    document.removeEventListener("click", handleClickOutside);
-});
+    function deleteTask() {
+        emits("deleteTask");
+        isMenuOpen.value = false;
+    }
 
-function editTask() {
-    emits("editTask");
-    isMenuOpen.value = false;
-}
+    function addTaskBefore() {
+        emits("addTaskBefore");
+        isMenuOpen.value = false;
+    }
 
-function addSubTask() {
-    emits("addSubTask");
-    isMenuOpen.value = false;
-}
-
-function deleteTask() {
-    emits("deleteTask");
-    isMenuOpen.value = false;
-}
-
-function addTaskBefore() {
-    emits("addTaskBefore");
-    isMenuOpen.value = false;
-}
-
-function addTaskAfter() {
-    emits("addTaskAfter");
-    isMenuOpen.value = false;
-}
+    function addTaskAfter() {
+        emits("addTaskAfter");
+        isMenuOpen.value = false;
+    }
 </script>
