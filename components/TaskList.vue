@@ -36,7 +36,6 @@ const taskStore = useTaskStore();
 const draggableKey = ref(Date.now());
 
 function onDragEnd() {
-    console.log("props.parentTaskId");
     if (props.parentTaskId === null) {
         // Mettre à jour les tâches racines dans le store
         taskStore.updateRootTasks(props.tasks);

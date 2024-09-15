@@ -1,11 +1,17 @@
 <template>
-    <div class="mb-2 bg-gray-800 pb-1 pr-2 text-white rounded" :class="{'pr-0 bg-blue-900' : isSubTask, 'opacity-50' : task.completed}">
+    <div 
+        :class="[
+            'pb-1 mb-2 text-white rounded',
+            isSubTask ? 'pr-0 bg-blue-900' : 'pr-2 bg-gray-800',
+            { 'opacity-50': task.completed }
+        ]"
+    >
         <div 
 			class="flex items-center justify-between py-2 pl-3" 
 			:class="{ 'pb-0 pr-0' : isSubTask }"
 		>
 			<div @click="toggleSubTasks" class="w-full space-y-1" :class="{ 'cursor-pointer': task.subTasks && task.subTasks.length }">
-				<div class="flex items-center gap-2 w-full">
+				<div class="flex items-center w-full gap-2">
 					<input
 						type="checkbox"
 						:checked="task.completed"
@@ -13,13 +19,13 @@
 						:disabled="!canToggleCompletion"
 						class="cursor-pointer"
 					/>
-					<div v-if="isEditing" class="flex gap-1 w-full">
+					<div v-if="isEditing" class="flex w-full gap-1">
 						<input
 							v-model="editedName"
 							@keyup.enter="saveTaskName"
-							class="rounded px-3 py-1 w-full bg-gray-300 text-gray-950 outline-none placeholder:text-gray-500 focus:bg-gray-100"
+							class="w-full px-3 py-1 bg-gray-300 rounded outline-none text-gray-950 placeholder:text-gray-500 focus:bg-gray-100"
 						/>
-						<button @click="saveTaskName" class="bg-blue-950 px-4 py-3 rounded flex items-center justify-center hover:opacity-80">
+						<button @click="saveTaskName" class="flex items-center justify-center px-4 py-3 rounded bg-blue-950 hover:opacity-80">
 							<IconCheck class="w-5 h-5" />
 						</button>
 					</div>
@@ -54,7 +60,7 @@
             </div>
         </div>
 
-        <div v-if="showAddTaskBefore" class="mb-5 ml-6" :class="{'mb-0' : (isSubTask || task.subTasks.length < 1)}">
+        <div v-if="showAddTaskBefore" class="ml-6" :class="(isSubTask || task.subTasks.length < 1) ? 'mb-0' : 'mb-5'">
             <AddTask
                 :showCancel="true"
                 placeholder="Ajouter une tâche avant celle-ci"
@@ -63,7 +69,7 @@
             />
         </div>
 
-        <div v-if="showAddTaskAfter" class="mb-5 ml-6" :class="{'mb-0' : (isSubTask || task.subTasks.length < 1)}">
+        <div v-if="showAddTaskAfter" class="ml-6" :class="(isSubTask || task.subTasks.length < 1) ? 'mb-0' : 'mb-5'">
             <AddTask
                 :showCancel="true"
                 placeholder="Ajouter une tâche après celle-ci"
@@ -72,7 +78,7 @@
             />
         </div>
 
-        <div v-if="showAddSubTask" class="mb-5 ml-6" :class="{'mb-0' : (isSubTask || task.subTasks.length < 1)}">
+        <div v-if="showAddSubTask" class="ml-6" :class="(isSubTask || task.subTasks.length < 1) ? 'mb-0' : 'mb-5'">
             <AddTask 
                 :showCancel="true" 
                 placeholder="Ajouter une sous tâche"
@@ -84,7 +90,7 @@
         <transition name="slide-toggle">
             <div
                 v-if="showSubTasks && task.subTasks && task.subTasks.length"
-                class="border-l border-blue-300 ml-6 pl-2"
+                class="pl-2 ml-6 border-l border-blue-300"
 				:class="{ 'mt-2' : isSubTask }"
             >
                 <TaskList :tasks="task.subTasks" :parentTaskId="task.id" :isSubTask="true" />
@@ -94,7 +100,6 @@
 </template>
 
 <script setup>
-    import { ref, computed } from 'vue';
     import { useTaskStore } from '@/stores/taskStore';
 
     const props = defineProps({
@@ -162,7 +167,7 @@
     function toggleSubTasks() {
         showSubTasks.value = !showSubTasks.value;
     }
-
+    // Fonction pour valider une tâche
 	function toggleTaskCompletion() {
 		taskStore.toggleTaskCompletion(props.task.id);
 	}

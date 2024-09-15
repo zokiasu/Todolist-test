@@ -5,13 +5,13 @@
         </button>
         <div
             v-if="isMenuOpen"
-            class="absolute right-0 mt-2 w-48 bg-white border rounded shadow-lg z-10"
+            class="absolute right-0 z-10 w-48 mt-2 bg-white border rounded shadow-lg"
         >
             <ul>
                 <li>
                     <button
                         @click="editTask"
-                        class="block w-full text-left px-4 py-2 hover:bg-zinc-100"
+                        class="block w-full px-4 py-2 text-left hover:bg-zinc-100"
                     >
                         Modifier
                     </button>
@@ -19,7 +19,7 @@
                 <li>
                     <button
                         @click="addSubTask"
-                        class="block w-full text-left px-4 py-2 hover:bg-zinc-100"
+                        class="block w-full px-4 py-2 text-left hover:bg-zinc-100"
                     >
                         Ajouter une sous-tâche
                     </button>
@@ -27,7 +27,7 @@
                 <li>
                     <button
                         @click="addTaskBefore"
-                        class="block w-full text-left px-4 py-2 hover:bg-zinc-100"
+                        class="block w-full px-4 py-2 text-left hover:bg-zinc-100"
                     >
                         Ajouter une tâche avant
                     </button>
@@ -35,7 +35,7 @@
                 <li>
                     <button
                         @click="addTaskAfter"
-                        class="block w-full text-left px-4 py-2 hover:bg-zinc-100"
+                        class="block w-full px-4 py-2 text-left hover:bg-zinc-100"
                     >
                         Ajouter une tâche après
                     </button>
@@ -43,7 +43,7 @@
                 <li>
                     <button
                         @click="deleteTask"
-                        class="block w-full text-left px-4 py-2 text-red-500 hover:bg-zinc-100"
+                        class="block w-full px-4 py-2 text-left text-red-500 hover:bg-zinc-100"
                     >
                         Supprimer
                     </button>
@@ -54,8 +54,6 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from "vue";
-
 const props = defineProps({
     task: {
         type: Object,

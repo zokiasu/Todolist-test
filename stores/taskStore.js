@@ -62,10 +62,12 @@ export const useTaskStore = defineStore('taskStore', () => {
         addTask(name, null, 'after', id);
     }
 
+    // Fonction pour récupérer toute la liste
     function getRootTasks() {
         return tasks.value;
     }
 
+    // Fonction pour retrouver les tâches via leur id
     function findTaskById(id, taskList = tasks.value) {
         for (const task of taskList) {
             if (task.id === id) {
@@ -78,6 +80,7 @@ export const useTaskStore = defineStore('taskStore', () => {
         return null;
     }
 
+    // Fonction pour mettre à jour une tâche
     function updateTaskName(id, newName) {
         const task = findTaskById(id);
         if (task) {
@@ -85,6 +88,7 @@ export const useTaskStore = defineStore('taskStore', () => {
         }
     }
 
+    // Fonction pour supprimer une tâche
     function deleteTask(id, taskList = tasks.value) {
         const index = taskList.findIndex(task => task.id === id);
 
@@ -99,10 +103,12 @@ export const useTaskStore = defineStore('taskStore', () => {
         }
     }
 
+    // Fonction pour remplacer toute la liste
     function updateRootTasks(newTasks) {
         tasks.value = newTasks;
     }
 
+    // Fonction pour mettre à jour une sous-tâche
     function updateSubTasks(parentId, newSubTasks) {
         const parentTask = findTaskById(parentId);
         if (parentTask) {
@@ -110,6 +116,7 @@ export const useTaskStore = defineStore('taskStore', () => {
         }
     }
 
+    // Fonction pour valider une tâche
     function toggleTaskCompletion(id) {
         const task = findTaskById(id);
         if (task && canToggleCompletion(id)) {
@@ -128,7 +135,7 @@ export const useTaskStore = defineStore('taskStore', () => {
         }
     }
 
-    // Fonction pour vérifier que toute les subTasks soient compléter 
+    // Fonction pour vérifier que toute les sous tâches soient compléter 
     function canToggleCompletion(id) {
         const task = findTaskById(id);
         if (task) {
@@ -141,6 +148,7 @@ export const useTaskStore = defineStore('taskStore', () => {
         return false;
     }
 
+    // Fonction pour mettre à jour l'état de complétion des tâches parentes
     function updateParentCompletion(parentId) {
         const parentTask = findTaskById(parentId);
         if (parentTask) {
@@ -160,6 +168,7 @@ export const useTaskStore = defineStore('taskStore', () => {
         }
     }
 
+    // Fonction pour marquer toute les sous tâches comme incomplète
     function markAllSubTasksIncomplete(task) {
         for (const subTask of task.subTasks) {
             subTask.completed = false;

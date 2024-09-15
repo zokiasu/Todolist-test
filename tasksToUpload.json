@@ -1,0 +1,119 @@
+[
+  {
+    "id": 1694770340001,
+    "name": "L'utilisateur doit pouvoir créer des tâches à partir d'une liste vide",
+    "completed": false,
+    "createdAt": "2024-09-15T22:00:00.181Z",
+    "completedAt": null,
+    "parentId": null,
+    "subTasks": []
+  },
+  {
+    "id": 1694770340002,
+    "name": "L'utilisateur doit pouvoir indiquer qu'une tâche est complétée ou non.",
+    "completed": false,
+    "createdAt": "2024-09-15T22:00:00.182Z",
+    "completedAt": null,
+    "parentId": null,
+    "subTasks": []
+  },
+  {
+    "id": 1694770340003,
+    "name": "L'utilisateur doit pouvoir savoir lorsqu'une tâche a été créée, et lorsqu'elle a été complétée.",
+    "completed": false,
+    "createdAt": "2024-09-15T22:00:00.183Z",
+    "completedAt": null,
+    "parentId": null,
+    "subTasks": []
+  },
+  {
+    "id": 1694770340004,
+    "name": "L'utilisateur doit pouvoir changer le nom d'une tâche.",
+    "completed": false,
+    "createdAt": "2024-09-15T22:00:00.184Z",
+    "completedAt": null,
+    "parentId": null,
+    "subTasks": []
+  },
+  {
+    "id": 1694770340005,
+    "name": "L'utilisateur doit pouvoir supprimer une tâche.",
+    "completed": false,
+    "createdAt": "2024-09-15T22:00:00.185Z",
+    "completedAt": null,
+    "parentId": null,
+    "subTasks": []
+  },
+  {
+    "id": 1694770340006,
+    "name": "L'utilisateur doit pouvoir ré-ordonner les tâches.",
+    "completed": false,
+    "createdAt": "2024-09-15T22:00:00.186Z",
+    "completedAt": null,
+    "parentId": null,
+    "subTasks": []
+  },
+  {
+    "id": 1694770340007,
+    "name": "L'utilisateur doit avoir accès aux actions applicables sur une tâche via un menu.",
+    "completed": false,
+    "createdAt": "2024-09-15T22:00:00.187Z",
+    "completedAt": null,
+    "parentId": null,
+    "subTasks": []
+  },
+  {
+    "id": 1694770340008,
+    "name": "L'utilisateur doit pouvoir ajouter des tâches avant ou après des tâches existantes.",
+    "completed": false,
+    "createdAt": "2024-09-15T22:00:00.188Z",
+    "completedAt": null,
+    "parentId": null,
+    "subTasks": []
+  },
+  {
+    "id": 1694770340009,
+    "name": "L'utilisateur doit pouvoir ajouter une ou plusieurs sous-tâches à une tâche, celles-ci pouvant aussi avoir des sous-tâches, et ainsi de suite, sans limite de profondeur.",
+    "completed": false,
+    "createdAt": "2024-09-15T22:00:00.189Z",
+    "completedAt": null,
+    "parentId": null,
+    "subTasks": []
+  },
+  {
+    "id": 1694770340010,
+    "name": "L'utilisateur doit pouvoir manipuler les sous-tâches comme les tâches de base.",
+    "completed": false,
+    "createdAt": "2024-09-15T22:00:00.190Z",
+    "completedAt": null,
+    "parentId": null,
+    "subTasks": []
+  },
+  {
+    "id": 1694770340011,
+    "name": "L'utilisateur ne peut pas compléter une tâche parent si toutes les sous-tâches ne sont pas complétées. Également, si toutes les sous-tâches d'une tâche sont complétées, alors la tâche parent doit être indiquée comme complète.",
+    "completed": false,
+    "createdAt": "2024-09-15T22:00:00.191Z",
+    "completedAt": null,
+    "parentId": null,
+    "subTasks": []
+  },
+  {
+    "id": 1694770340012,
+    "name": "L'utilisateur doit pouvoir uploader une liste de tâches depuis un fichier json.",
+    "completed": false,
+    "createdAt": "2024-09-15T22:00:00.192Z",
+    "completedAt": null,
+    "parentId": null,
+    "subTasks": []
+  },
+  {
+    "id": 1694770340013,
+    "name": "L'utilisateur doit pouvoir télécharger sa liste de tâches en un fichier json.",
+    "completed": false,
+    "createdAt": "2024-09-15T22:00:00.193Z",
+    "completedAt": null,
+    "parentId": null,
+    "subTasks": []
+  }
+]
