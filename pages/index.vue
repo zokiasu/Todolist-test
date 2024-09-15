@@ -1,6 +1,6 @@
 <template>
-    <div class="container mx-auto max-w-4xl space-y-4">
-        <p class="text-center py-20 text-2xl font-bold text-blue-500 lg:text-5xl 2xl:text-8xl">
+    <div class="container max-w-4xl p-5 mx-auto space-y-4">
+        <p class="py-20 text-5xl font-bold text-center text-blue-500 2xl:text-8xl">
             To-Do List
         </p>
         <AddTask @onAdd="handleAddTask" />
