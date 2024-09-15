@@ -1,7 +1,7 @@
 <template>
-    <div class="relative flex items-center" ref="menuContainer">
+    <div class="relative flex items-center text-gray-500" ref="menuContainer">
         <button @click="toggleMenu" title="Ouvrir menu">
-            <IconVerticalDotMenu class="w-5 h-5" />
+            <IconVerticalDotMenu class="w-5 h-5 text-white" />
         </button>
         <div
             v-if="isMenuOpen"

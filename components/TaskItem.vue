@@ -1,33 +1,35 @@
 <template>
-    <div class="pl-2 pb-1 mb-2 bg-red-100">
-        <div class="flex items-center justify-between" :class="task.subTasks && task.subTasks.length && showSubTasks ? 'pb-2':''">
-			<div class="flex items-center gap-3">
-				<input
-					type="checkbox"
-					:checked="task.completed"
-					@change="toggleTaskCompletion"
-					:disabled="!canToggleCompletion"
-					class="cursor-pointer"
-				/>
-				<div @click="toggleSubTasks" class="w-full" :class="{ 'cursor-pointer': task.subTasks && task.subTasks.length }">
-					<div v-if="isEditing" class="flex gap-1">
+    <div class="mb-2 bg-gray-800 pb-1 pr-2 text-white rounded" :class="{'pr-0 bg-blue-900' : isSubTask, 'opacity-50' : task.completed}">
+        <div 
+			class="flex items-center justify-between py-2 pl-3" 
+			:class="{ 'pb-0 pr-0' : isSubTask }"
+		>
+			<div @click="toggleSubTasks" class="w-full space-y-1" :class="{ 'cursor-pointer': task.subTasks && task.subTasks.length }">
+				<div class="flex items-center gap-2 w-full">
+					<input
+						type="checkbox"
+						:checked="task.completed"
+						@change="toggleTaskCompletion"
+						:disabled="!canToggleCompletion"
+						class="cursor-pointer"
+					/>
+					<div v-if="isEditing" class="flex gap-1 w-full">
 						<input
 							v-model="editedName"
 							@keyup.enter="saveTaskName"
-							@blur="saveTaskName"
-							class="border-b w-full rounded appearance-none outline-none pl-1"
+							class="rounded px-3 py-1 w-full bg-gray-300 text-gray-950 outline-none placeholder:text-gray-500 focus:bg-gray-100"
 						/>
-						<button @click="saveTaskName" class="bg-green-500 text-white px-2 rounded text-nowrap hover:bg-green-700">
-							Mettre à jour
+						<button @click="saveTaskName" class="bg-blue-950 px-4 py-3 rounded flex items-center justify-center hover:opacity-80">
+							<IconCheck class="w-5 h-5" />
 						</button>
 					</div>
 					<p v-else>
 						{{ task.name }}
 					</p>
-					<div class="text-xs text-gray-500">
-						<span>Créée le {{ formattedCreatedAt }}</span>
-						<span v-if="task.completedAt"> • Complétée le {{ formattedCompletedAt }}</span>
-					</div>
+				</div>
+				<div class="text-xs text-blue-300">
+					<span>Créée le {{ formattedCreatedAt }}</span>
+					<span v-if="task.completedAt"> • Complétée le {{ formattedCompletedAt }}</span>
 				</div>
 			</div>
             <div class="flex items-center gap-1">
@@ -52,7 +54,7 @@
             </div>
         </div>
 
-        <div v-if="showAddTaskBefore" class="mb-5">
+        <div v-if="showAddTaskBefore" class="mb-5 ml-6" :class="{'mb-0' : (isSubTask || task.subTasks.length < 1)}">
             <AddTask
                 :showCancel="true"
                 placeholder="Ajouter une tâche avant celle-ci"
@@ -61,7 +63,7 @@
             />
         </div>
 
-        <div v-if="showAddTaskAfter" class="mb-5">
+        <div v-if="showAddTaskAfter" class="mb-5 ml-6" :class="{'mb-0' : (isSubTask || task.subTasks.length < 1)}">
             <AddTask
                 :showCancel="true"
                 placeholder="Ajouter une tâche après celle-ci"
@@ -69,7 +71,8 @@
                 @onCancel="showAddTaskAfter = false"
             />
         </div>
-        <div v-if="showAddSubTask" class="mb-5">
+
+        <div v-if="showAddSubTask" class="mb-5 ml-6" :class="{'mb-0' : (isSubTask || task.subTasks.length < 1)}">
             <AddTask 
                 :showCancel="true" 
                 placeholder="Ajouter une sous tâche"
@@ -81,9 +84,10 @@
         <transition name="slide-toggle">
             <div
                 v-if="showSubTasks && task.subTasks && task.subTasks.length"
-                class="border-l divide-y divide-red-300 border-red-400 ml-3 pl-1"
+                class="border-l border-blue-300 ml-6 pl-2"
+				:class="{ 'mt-2' : isSubTask }"
             >
-                <TaskList :tasks="task.subTasks" :parentTaskId="task.id" />
+                <TaskList :tasks="task.subTasks" :parentTaskId="task.id" :isSubTask="true" />
             </div>
         </transition>
     </div>
@@ -98,6 +102,10 @@
             type: Object,
             required: true,
         },
+		isSubTask: {
+			type: Boolean,
+			default: false
+		}
     });
 
     const taskStore = useTaskStore();

@@ -8,7 +8,7 @@
         @end="onDragEnd"
     >
         <template #item="{ element }">
-            <TaskItem :task="element" />
+            <TaskItem :task="element" :isSubTask="isSubTask"/>
         </template>
     </draggable>
 </template>
@@ -26,6 +26,10 @@ const props = defineProps({
         type: Number,
         default: null,
     },
+	isSubTask: {
+		type: Boolean,
+		default: false
+	}
 });
 
 const taskStore = useTaskStore();

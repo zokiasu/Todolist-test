@@ -1,11 +1,11 @@
 <template>
-    <div class="container mx-auto max-w-4xl">
-        <p class="text-center py-20 text-2xl font-semibold text-blue-500">
-            To do List
+    <div class="container mx-auto max-w-4xl space-y-4">
+        <p class="text-center py-20 text-2xl font-bold text-blue-500 lg:text-5xl 2xl:text-8xl">
+            To-Do List
         </p>
         <AddTask @onAdd="handleAddTask" />
         <TaskList :tasks="rootTasks" />
-		<div class="mt-4 flex space-x-2">
+		<div class="flex space-x-2">
 			<UploadTasks />
 			<DownloadTasks />
 		</div>
